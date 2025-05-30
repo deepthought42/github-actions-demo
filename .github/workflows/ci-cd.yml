@@ -62,10 +62,10 @@ jobs:
         with: { node-version: 16 }
       - run: npm install
       - run: npm run build
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: dist
-          path: build/
+          path: dist/
 
   release:
     needs: build
