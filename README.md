@@ -10,18 +10,6 @@ A simple npm package demonstrating basic TypeScript setup with testing and linti
 npm install github-actions-demo
 ```
 
-## Usage
-
-```typescript
-import { greet, isEmpty } from 'github-actions-demo';
-
-// Greet someone
-console.log(greet('World')); // Output: Hello, World!
-
-// Check if a string is empty
-console.log(isEmpty('')); // Output: true
-console.log(isEmpty('hello')); // Output: false
-```
 
 ## Development
 
