@@ -85,11 +85,5 @@ jobs:
           title: Dev Build ${{ github.sha }}
           tag: dev
           prerelease: true
-      - uses: softprops/action-gh-release@v2
-        with:
-          tag_name: dev-${{ github.sha }}
-          name: app-dev-${{ github.sha }}.zip
-          body: "This is a test release"
-          draft: false
-          prerelease: true
-          token: ${{ secrets.GITHUB_TOKEN }}
+      - id: upload_release
+        uses: softprops/action-gh-release@v2
