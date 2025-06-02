@@ -87,3 +87,5 @@ jobs:
           prerelease: true
       - id: upload_release
         uses: softprops/action-gh-release@v2
+        with:
+          tag: dev-${{ github.sha }}
