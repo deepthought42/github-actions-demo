@@ -1,3 +1,5 @@
+![CI Pipeline Badge](https://github.com/your-user/your-repo/actions/workflows/ci-cd.yml/badge.svg)
+
 # GitHub Actions Demo
 
 A simple npm package demonstrating basic TypeScript setup with testing and linting.

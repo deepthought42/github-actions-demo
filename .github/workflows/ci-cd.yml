@@ -5,6 +5,9 @@ on:
     branches: [ main ]
     types: [ opened, synchronize ]
 
+permissions:
+  contents: write
+
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -52,3 +55,43 @@ jobs:
         run: npm install
       - name: Run tests
         run: npm test
+
+  build:
+    needs: [lint, security-scan, test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with: { node-version: 16 }
+      - run: npm install
+      - run: npm run build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # provided automatically by GitHub
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v4
+        with: { name: dist }
+      - id: create_release
+        uses: actions/create-release@v1
+        with:
+          tag_name: dev-${{ github.sha }}
+          release_name: Dev Build ${{ github.sha }}
+          draft: false
+          prerelease: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: build/app.zip
+          asset_name: app-dev-${{ github.sha }}.zip
+          asset_content_type: application/zip
+        
